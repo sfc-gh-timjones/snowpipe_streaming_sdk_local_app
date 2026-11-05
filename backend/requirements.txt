@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+snowpipe-streaming
+python-dotenv
+sse-starlette

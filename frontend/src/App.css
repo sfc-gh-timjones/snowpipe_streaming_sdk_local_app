@@ -1,0 +1,182 @@
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --text-dim: #8b949e;
+  --accent: #29b6f6;
+  --green: #3fb950;
+  --red: #f85149;
+  --orange: #e3b341;
+  --yellow: #d29922;
+  --purple: #bc8cff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.header h1 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.04em;
+}
+
+.header h1 span { color: var(--accent); }
+
+/* ── Generate button ── */
+.btn-generate {
+  padding: 9px 24px;
+  border-radius: 6px;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-generate:active { transform: scale(0.97); }
+.btn-generate.idle {
+  background: var(--accent);
+  color: #000;
+}
+.btn-generate.running {
+  background: var(--red);
+  color: #fff;
+}
+
+/* ── Stats bar ── */
+.stats {
+  display: flex;
+  gap: 32px;
+  padding: 12px 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.stat-item { display: flex; flex-direction: column; gap: 2px; }
+.stat-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+.stat-value { font-size: 18px; font-weight: 700; color: var(--accent); }
+.stat-value.dim { color: var(--text-dim); font-size: 14px; font-weight: 400; }
+
+/* ── Column headers ── */
+.col-headers {
+  display: grid;
+  grid-template-columns: 90px 80px 200px 80px 160px 70px 60px 90px;
+  padding: 8px 28px;
+  font-size: 10px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+/* ── Record feed ── */
+.feed {
+  overflow-y: hidden;
+  height: calc(100vh - 140px);
+}
+
+/* ── Record row ── */
+.record-row {
+  display: grid;
+  grid-template-columns: 90px 80px 200px 80px 160px 70px 60px 90px;
+  padding: 5px 28px;
+  border-bottom: 1px solid #1c2230;
+  align-items: center;
+  animation: slideIn 0.18s ease-out;
+  transition: background 0.2s;
+}
+
+.record-row:hover { background: #1a2030; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cell { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cell.dim { color: var(--text-dim); font-size: 11px; }
+
+/* Event type badges */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge.motion_detected   { background: #1f2937; color: #6b7280; }
+.badge.person_detected   { background: #1e3a5f; color: var(--accent); }
+.badge.vehicle_detected  { background: #2a3a1f; color: var(--green); }
+.badge.intrusion_alert   { background: #3a1f1f; color: var(--red); }
+.badge.door_access       { background: #2a2a1f; color: var(--orange); }
+.badge.loitering         { background: #2a1f3a; color: var(--purple); }
+
+/* Confidence bar */
+.conf-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.conf-track {
+  flex: 1;
+  height: 4px;
+  background: #21262d;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.conf-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--green);
+}
+.conf-fill.low  { background: var(--orange); }
+.conf-fill.crit { background: var(--red); }
+
+/* Empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60%;
+  gap: 12px;
+  color: var(--text-dim);
+}
+.empty-state .icon { font-size: 40px; }
+.empty-state p { font-size: 13px; }
+
+/* Pulse dot */
+.pulse-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 1.2s ease-in-out infinite;
+  display: inline-block;
+  margin-right: 6px;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
