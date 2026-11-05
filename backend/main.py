@@ -21,14 +21,14 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
-BATCH_SIZE = 25       # records per batch
-BATCH_INTERVAL = 0.25  # seconds → 25 / 0.25 = 100 records/sec to Snowflake
-DISPLAY_EVERY_N = 5   # send 1 in 5 records to browser → 20 display/sec, smooth UI
+BATCH_SIZE = 250      # records per batch
+BATCH_INTERVAL = 0.25  # seconds → 250 / 0.25 = 1000 records/sec to Snowflake
+DISPLAY_EVERY_N = 50  # send 1 in 50 records to browser → ~20 display/sec, smooth UI
 
 # Shared state
 _service: StreamingService | None = None
 _running = asyncio.Event()
-_queue: asyncio.Queue = asyncio.Queue(maxsize=500)
+_queue: asyncio.Queue = asyncio.Queue(maxsize=2000)
 _rows_sent_total: int = 0
 _rows_sent_window: int = 0   # rows sent since last stats emit
 _last_stats_time: float = 0.0
@@ -61,7 +61,7 @@ app.add_middleware(
 async def _generation_loop():
     """Generate records, append to Snowflake via batch API, and push a sample to the SSE queue."""
     global _rows_sent_total, _rows_sent_window, _last_stats_time
-    logger.info("Generation loop started (100 rows/sec)")
+    logger.info("Generation loop started (1000 rows/sec)")
     display_counter = 0
     _last_stats_time = asyncio.get_event_loop().time()
     while _running.is_set():

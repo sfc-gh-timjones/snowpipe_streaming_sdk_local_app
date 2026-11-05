@@ -74,7 +74,7 @@ Leave everything else as it is, then save the file.
 
 ## Step 5: Start the backend (Terminal window 1)
 
-From the project folder:
+Open a terminal, `cd` into the project folder you cloned, then run:
 
 ```bash
 cd backend
@@ -84,17 +84,39 @@ pip install -r requirements.txt
 uvicorn main:app --port 8000
 ```
 
+<details>
+<summary>Real-life example (Tim's machine)</summary>
+
+```bash
+cd /Users/timjones/projects/coco/Snowpipe_streaming_app/backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --port 8000
+```
+</details>
+
 Wait until you see `Application startup complete`. **Leave this window open.**
 
 ## Step 6: Start the frontend (Terminal window 2)
 
-Open a **second** terminal window, go to the project folder, then run:
+Open a **second** terminal window, `cd` into the project folder you cloned, then run:
 
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
+
+<details>
+<summary>Real-life example (Tim's machine)</summary>
+
+```bash
+cd /Users/timjones/projects/coco/Snowpipe_streaming_app/frontend
+npm install
+npm run dev
+```
+</details>
 
 **Leave this window open too.**
 
@@ -118,18 +140,35 @@ Done.
 
 **Start again later** (no reinstall needed):
 
+Terminal 1 — from the project folder you cloned:
+```bash
+cd backend
+source .venv/bin/activate
+uvicorn main:app --port 8000
+```
+
+Terminal 2 — from the project folder you cloned:
+```bash
+cd frontend
+npm run dev
+```
+
+<details>
+<summary>Real-life example (Tim's machine)</summary>
+
 Terminal 1:
 ```bash
-cd snowpipe_streaming_sdk_local_app/backend
+cd /Users/timjones/projects/coco/Snowpipe_streaming_app/backend
 source .venv/bin/activate
 uvicorn main:app --port 8000
 ```
 
 Terminal 2:
 ```bash
-cd snowpipe_streaming_sdk_local_app/frontend
+cd /Users/timjones/projects/coco/Snowpipe_streaming_app/frontend
 npm run dev
 ```
+</details>
 
 ---
 
@@ -165,11 +204,14 @@ SELECT metadata, TYPEOF(metadata) FROM STREAMING_DEMO.SECURITY.CAMERA_EVENTS LIM
 
 ## Changing the speed
 
-The default is **100 records/sec** (batches of 25 every 0.25 seconds). To change it, edit `BATCH_SIZE` in `backend/main.py`:
+The default is **1,000 records/sec** (batches of 250 every 0.25 seconds). To change it, edit `BATCH_SIZE` in `backend/main.py`:
 
-- 20/sec: `BATCH_SIZE = 5`
-- 100/sec: `BATCH_SIZE = 25` (default)
-- 200/sec: `BATCH_SIZE = 50`
+- 100/sec: `BATCH_SIZE = 25`
+- 500/sec: `BATCH_SIZE = 125`
+- 1,000/sec: `BATCH_SIZE = 250` (default)
+- 2,000/sec: `BATCH_SIZE = 500`
+
+The browser always shows ~20 rows/sec regardless of throughput (1 in every 50 is sampled to keep the UI smooth).
 
 ## Cleaning up
 

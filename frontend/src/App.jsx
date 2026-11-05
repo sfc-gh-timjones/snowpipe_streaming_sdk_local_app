@@ -144,7 +144,7 @@ export default function App() {
           </span>
           {isRunning && (
             <span style={{ fontSize: 10, color: 'var(--text-dim)', marginTop: 2 }}>
-              20/sec shown in UI
+              1,000/sec → Snowflake · ~20/sec shown in UI
             </span>
           )}
         </div>
